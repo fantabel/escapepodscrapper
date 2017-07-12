@@ -6,8 +6,18 @@ request(url, function(err, resp, body) {
     $ = cheerio.load(body);
     lists = $('#archives-dropdown-3 option');
     $(lists).splice(0, 1);
-    $(lists).each(function (i, element) {
+    var item1 = $(lists)[1];
+    //$(lists).each(function (i, element) {
+    $(item1).each(function (i, element) {
         console.log($(element).text().split(/\s+/).slice(1, 3).join(" ") + ' -> ' + $(element).attr('value'))
+        request($(element).attr('value'), function(err, resp, body) {
+            $ = cheerio.load(body);
+            posts = $('.post');
+            $(posts).each(function (i, post) {
+                console.log($(post).text());
+            });
+            //console.log(body);
+        });
     });
 });
 
